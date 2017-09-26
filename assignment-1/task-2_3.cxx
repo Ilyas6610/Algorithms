@@ -18,9 +18,42 @@ A[i] + B[j] = k. Время работы O(n + m). n, m ≤ 100000.
 ****************************************************************************/
 
 #include <iostream>
+#include <vector>
+
+using namespace std;
 
 int main()
 {
+    int k, n, m, r;
+    cin >> n;
+    vector <int> a,b;
+    for(int i=0;i<n;i++)
+    {
+        cin >> r;
+        a.push_back(r);
+    }
+    cin >> m;
+    for(int i=0;i<m;i++)
+    {
+        cin >> r;
+        b.push_back(r);
+    }
+    cin >> k;
+    m--;
+    int p = 0, d=0;
+    while(p!=n&&m!=-1)
+    {
+        if(m==-1) m=0;
+        if(p==n) p=n-1;
+        if(a[p]+b[m]>k) m--;
+        else if(a[p]+b[m]<k) p++;
+        else if(a[p]+b[m]==k)
+        {
+            d++;
+            p++;
+            m--;
+        }
+    }
+    cout << d;
     return 0;
 }
-
