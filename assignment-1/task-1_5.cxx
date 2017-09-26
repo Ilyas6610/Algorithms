@@ -12,8 +12,18 @@ n ≤ 1000.
 
 #include <iostream>
 
+using namespace std;
+
 int main()
 {
+    int n,k=3,d=1;
+    cin >> n;
+    cout << 1 << ' ';
+    for (int i=1;i<n;i++)
+    {
+        cout << d+k << ' ';
+        d+=k;
+        k+=2;
+    }
     return 0;
 }
-
