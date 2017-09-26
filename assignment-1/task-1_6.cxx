@@ -13,8 +13,27 @@ n ≤ 10000.
 
 #include <iostream>
 
+using namespace std;
+
 int main()
 {
+    int a[10000], b;
+    cin >> b;
+    for(int i=0;i<b;i++)
+        cin >> a[i];
+    int d;
+    if (b%2==0) d=b/2-1;
+        else d=b/2;
+    b--;
+    for(int i=0;i<=d;i++)
+    {
+        int k=a[i];
+        a[i]=a[b-i];
+        a[b-i]=k;
+    }
+    for(int i=0;i<=b;i++)
+        cout << a[i] << ' ';
     return 0;
 }
+
 
