@@ -13,8 +13,27 @@ n ≤ 10^7.
 
 #include <iostream>
 
+using namespace std;
+
 int main()
 {
+    int n, m=0, k=0, res1=0, res2=0;
+    cin >> n;
+    int d = n/2+1;
+    for(int i=2;i<=d;i++)
+    {
+        if(n%i==0)
+        {
+            res1 = n/i;
+            res2 = n/i*(i-1);
+            break;
+        }
+    };
+    if (res1==0)
+    {
+        res1 = 1;
+        res2 = n-1;
+    };
+    cout << res1 << ' ' << res2;
     return 0;
 }
-
