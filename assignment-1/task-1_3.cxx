@@ -13,8 +13,22 @@ a, b, c, d ≤ 1000.
 
 #include <iostream>
 
+using namespace std;
+
 int main()
 {
+    int a,b,c,d;
+    cin >> a >> b >> c >> d;
+    int m = b*d;
+    int n = a*d + b*c;
+    for(int i=2;i*i<=n;i++)
+    {
+        while(n%i==0&&m%i==0)
+        {
+            n/=i;
+            m/=i;
+        }
+    };
+    cout << n << ' ' << m;
     return 0;
 }
-
