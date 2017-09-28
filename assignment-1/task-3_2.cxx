@@ -14,9 +14,38 @@
 ****************************************************************************/
 
 #include <iostream>
+#include <cmath>
+
+using namespace std;
 
 int main()
 {
+    int n, a[10000], d;
+    cin >> n;
+    for(int i=0;i<n;i++)
+        cin >> a[i];
+    int k = log2(n);
+    for(int i=2;i<=k;i++)
+    {
+        d =pow(2, i);
+        if(d==n) d--;
+        if(a[d-1]<a[d]) continue;
+        else
+        {
+            while(a[d-1]>a[d])
+                d--;
+            cout << d;
+            return 0;
+        }
+    }
+    for(int i=d;i<n-1;i++)
+    {
+        if(a[i]>a[i+1])
+        {
+            cout << i;
+            return 0;
+        }
+    }
+    cout << n-1;
     return 0;
 }
-
