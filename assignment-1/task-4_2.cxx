@@ -46,9 +46,134 @@ pop вызвана для пустой структуры данных, то о�
 ****************************************************************************/
 
 #include <iostream>
+#include <cstdlib>
+#include <vector>
+
+
+class Deque {
+public:
+    Deque ( int size );
+    ~Deque () { delete[] buffer; }
+
+    void push_back(int x);
+    void push_front(int x);
+    int pop_back();
+    int pop_front();
+    void grow();
+    void print();
+
+private:
+    int* buffer;
+    int buffersize;
+    int head;
+    int tail;
+    int realSize;
+};
+
+Deque::Deque(int size) :
+    buffersize ( size ),
+    head ( 0 ),
+    tail ( 1 ),
+    realSize ( 0 )
+{
+    buffer = new int[buffersize];
+};
+
+void Deque::push_back(int x)
+{
+    if(realSize == buffersize - 1)
+        grow();
+    buffer[tail] = x;
+    tail = ( tail + 1 ) % buffersize;
+    realSize++;
+};
+
+void Deque::push_front(int x)
+{
+    if(realSize == buffersize - 1)
+        grow();
+    buffer[head] = x;
+    head = (head - 1 +  buffersize) % buffersize;
+    realSize++;
+};
+
+int Deque::pop_front()
+{
+    if( realSize != 0 )
+    {
+        realSize--;
+        head = (head + 1) % buffersize ;
+        std::cout << buffer[head] << std::endl;
+        return buffer[head];
+
+    }
+    else return -1;
+};
+
+int Deque::pop_back()
+{
+    if( realSize != 0 )
+    {
+        realSize--;
+        tail = ( tail - 1 + buffersize ) % buffersize;
+        return buffer[tail];
+    }
+    else return -1;
+};
+
+void Deque::grow()
+{
+    int* newBuffer = new int[buffersize*2];
+    for(int i = tail; i > head - buffersize; --i)
+        newBuffer[( i + buffersize * 2 ) % ( buffersize * 2 )] = buffer[( i + buffersize ) % buffersize ];
+    delete[] buffer;
+    buffer = newBuffer;
+    buffersize = buffersize * 2;
+    if(head != 0) head = ( buffersize - ( buffersize / 2 - head));
+};
+
+void Deque::print()
+{
+    for( int i = 0; i < buffersize; i++ )
+        std::cout << buffer[i] << ' ';
+    std::cout << std::endl;
+};
 
 int main()
 {
+    int k, n, l, d;
+    std::cin >> n;
+    auto a = Deque(2);
+    for(int i = 0; i < n; ++i)
+    {
+        a.print();
+        std::cin >> k >> l;
+        switch (k)
+        {
+            case 1:
+                a.push_front(l);
+                break;
+            case 2:
+                d = a.pop_front();
+                if( d != l )
+                {
+                    std::cout << "NO";
+                    return 0;
+                };
+                break;
+            case 3:
+                a.push_back(l);
+                break;
+            case 4:
+                d = a.pop_back();
+                if( d != l )
+                {
+                    std::cout << "NO";
+                    return 0;
+                };
+                break;
+        }
+    }
+    std::cout << "YES";
     return 0;
 }
-
