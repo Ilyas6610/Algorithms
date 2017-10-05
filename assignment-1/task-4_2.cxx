@@ -83,6 +83,7 @@ void Deque::push_back(int x)
 {
     if(realSize == buffersize - 1)
         grow();
+    //if(head != 0) tail++;
     buffer[tail] = x;
     tail = ( tail + 1 ) % buffersize;
     realSize++;
@@ -92,6 +93,7 @@ void Deque::push_front(int x)
 {
     if(realSize == buffersize - 1)
         grow();
+    //if(tail != 0) head = (head - 1 + buffersize) % buffersize;
     buffer[head] = x;
     head = (head - 1 +  buffersize) % buffersize;
     realSize++;
@@ -103,7 +105,6 @@ int Deque::pop_front()
     {
         realSize--;
         head = (head + 1) % buffersize ;
-        std::cout << buffer[head] << std::endl;
         return buffer[head];
 
     }
@@ -129,7 +130,8 @@ void Deque::grow()
     delete[] buffer;
     buffer = newBuffer;
     buffersize = buffersize * 2;
-    if(head != 0) head = ( buffersize - ( buffersize / 2 - head));
+    head = ( buffersize - ( buffersize / 2 - head));
+    // else head = buffersize - (buffersize - tail);
 };
 
 void Deque::print()
@@ -146,7 +148,6 @@ int main()
     auto a = Deque(2);
     for(int i = 0; i < n; ++i)
     {
-        a.print();
         std::cin >> k >> l;
         switch (k)
         {
