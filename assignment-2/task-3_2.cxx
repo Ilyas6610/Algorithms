@@ -49,9 +49,73 @@
 ****************************************************************************/
 
 #include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int med(int *a, int b, int n)
+{
+    if((a[b]>=a[(b+n-1)/2]&&a[b]<=a[n-1])||(a[b]<=a[(b+n-1)/2]&&a[b]>=a[n-1]))
+    {
+        return b;
+    }
+    else if((a[n-1]>=a[(b+n-1)/2]&&a[n-1]<=a[b])||(a[n-1]<=a[(b+n-1)/2]&&a[n-1]>=a[b]))
+    {
+        return n-1;
+    }
+    else if((a[b]<=a[(b+n-1)/2]&&a[(b+n-1)/2]<=a[n-1])||(a[b]>=a[(b+n-1)/2]&&a[(b+n-1)/2]>=a[n-1]))
+    {
+        return (b+n)/2;
+    }
+}
+
+int Partition(int *a, int b, int n)
+{
+    int r = med(a,b,n);
+    swap(a[r],a[b]);
+    int i=n-1, j=n-1;
+    while(j>b)
+    {
+        if(a[j]<a[b]) j--;
+        else
+        {
+            swap(a[j],a[i]);
+            j--;
+            i--;
+        }
+    };
+    swap(a[i],a[b]);
+    return i;
+}
+
+int FindKStatistics( int* arr, int n, int k )
+{
+    int begin = 0;
+    int end = n;
+    while( true ) {
+        int pivotPos = Partition( arr, begin, end );
+        if( pivotPos == k ) {
+            return arr[k];
+        }
+        if( pivotPos < k ) {
+            begin = pivotPos + 1;
+        } else {
+            end = pivotPos;
+        }
+    }
+}
 
 int main()
 {
+    int n,d;
+    bool e = true;
+    cin >> n >> d;
+    int *arr = new int[n];
+    for(int i=0;i<n;i++)
+        cin >> arr[i];
+    int m = FindKStatistics(arr,n,d);
+    cout << m;
+    delete []arr;
     return 0;
 }
 
