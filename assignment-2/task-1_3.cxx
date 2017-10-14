@@ -22,12 +22,31 @@ in  | out
 ****************************************************************************/
 
 #include <iostream>
+#include <limits.h>
 
 using namespace std;
 
+void sort1(int* x, int* y, double* angle, int n, int minnum)
+{
+    for(int i=0;i<n-1;i++)
+    {
+        if(i==minnum) continue;
+        for(int j=i+1;j<n;j++)
+        {
+            if(j==minnum) continue;
+            if(angle[i]<angle[j])
+            {
+                swap(x[i],x[j]);
+                swap(y[i],y[j]);
+                swap(angle[i],angle[j]);
+            }
+        }
+    };
+}
+
 int main()
 {
-    int n, minx = 1313144, miny = 2421411, minnum = 2412421;
+    int n, minx = INT_MAX, miny = INT_MAX, minnum = INT_MAX;
     cin >> n;
     int *x = new int[n+1];
     int *y = new int[n+1];
@@ -55,21 +74,7 @@ int main()
         if(minnum==i) continue;
         angle[i]=((double)(y[i]-y[minnum])/(double)(x[i]-x[minnum]));
     };
-    for(int i=0;i<n-1;i++)
-    {
-        if(i==minnum) continue;
-        for(int j=i+1;j<n;j++)
-        {
-            if(j==minnum) continue;
-            if(angle[i]<angle[j])
-            {
-                swap(x[i],x[j]);
-                swap(y[i],y[j]);
-                swap(angle[i],angle[j]);
-            }
-        }
-    };
-
+    sort1(x, y, angle, n, minnum);
     cout << x[minnum] << ' ' << y[minnum] << endl;
     for(int i=0;i<n;i++)
     {
@@ -81,4 +86,3 @@ int main()
     delete []angle;
     return 0;
 }
-
