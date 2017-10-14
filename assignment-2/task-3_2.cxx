@@ -55,15 +55,16 @@ using namespace std;
 
 int med(int *a, int b, int n)
 {
-    if((a[b]>=a[(b+n-1)/2]&&a[b]<=a[n-1])||(a[b]<=a[(b+n-1)/2]&&a[b]>=a[n-1]))
+    int last = a[n-1], middle = a[(b+n-1)/2], first = a[b];
+    if(( first >= middle && first <= last ) || ( first <= middle && first >= last ))
     {
         return b;
     }
-    else if((a[n-1]>=a[(b+n-1)/2]&&a[n-1]<=a[b])||(a[n-1]<=a[(b+n-1)/2]&&a[n-1]>=a[b]))
+    else if(( last >= middle && last <= first ) || ( last <= middle && last >= first ))
     {
         return n-1;
     }
-    else if((a[b]<=a[(b+n-1)/2]&&a[(b+n-1)/2]<=a[n-1])||(a[b]>=a[(b+n-1)/2]&&a[(b+n-1)/2]>=a[n-1]))
+    else if(( first <= middle && middle <= last ) || ( first >= middle && middle >= last ))
     {
         return (b+n)/2;
     }
@@ -118,4 +119,3 @@ int main()
     delete []arr;
     return 0;
 }
-
