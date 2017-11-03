@@ -29,7 +29,6 @@ root→Key ≤ K, то узел K добавляется в правое под�
 
 #include <iostream>
 #include <stdio.h>
-#include <stack>
 
 using namespace std;
 
@@ -81,31 +80,12 @@ void add(int Key,Node *&MyTree)
     }
 }
 
-void PostOrder(Node *root)
-{
-    if (root == NULL)
-    {
-       return;
-    };
-    stack<Node *> s;
-    stack<int> d;
-    s.push(root);
-    while (s.empty() == false)
-    {
-        Node *temp = s.top();
-        s.pop();
-        d.push(temp->Key);
-        if (temp->left)
-            s.push(temp->left);
-        if (temp->right)
-            s.push(temp->right);
-    };
-    while(d.empty() == false)
-    {
-        cout << d.top() << ' ';
-        d.pop();
+void postOrder(Node* root) {
+    if (root) {
+        postOrder(root->left);
+        postOrder(root->right);
+        cout << root->Key << ' ';
     }
-    
 }
 
 int main()
@@ -118,7 +98,7 @@ int main()
         cin >> x;
         add(x,Tree);
     };
-    PostOrder(Tree);
+    postOrder(Tree);
     del(Tree);
     return 0;
 }
