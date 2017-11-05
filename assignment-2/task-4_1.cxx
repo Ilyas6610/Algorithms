@@ -13,6 +13,7 @@ in                 | out
 #include <iostream>
 #include <algorithm>
 #include <cstring>
+#include <limits.h>
 
 using namespace std;
 
@@ -27,6 +28,7 @@ void Merge( const int* a, int aLen, const int* b, int bLen, int* c ) {
             ++j;
         }
     }
+
     if( i == aLen ) {
         for( ; j < bLen; ++j )
             c[i + j] = b[j];
@@ -50,37 +52,40 @@ void MergeSort( int* a, int aLen ) {
     delete[] c;
 }
 
-int maxK( int* a, int k )
-{
-    int d = a[0];
-    int maxn;
-    for( int i = 1; i < k ; i++ )
-        if( d < a[i] )
-        {
-            d = a[i];
-            maxn = i;
-        }
-    return maxn;
-}
-
 int main()
 {
     int n, k = 0, m;
     cin >> n >> k;
     int* arr = new int[k];
+    int* arr2 = new int[k];
     for( int i = 0; i < k; i++ )
         cin >> arr[i];
-    int e = maxK( arr, k );
-    for( int i = k; i < n; i++ )
-    {
-        cin >> m;
-        if( arr[e] > m )
-        {
-            arr[e] = m;
-            e = maxK( arr, k );
-        }
-    }
     MergeSort( arr, k );
+    int i = k;
+    while ( i < n )
+    {
+        int d = 0;
+        while ( d < k && i < n)
+        {
+            cin >> arr2[d];
+            d++;
+            i++;
+        };
+        while ( d < k )
+        {
+            arr2[d] = INT_MAX;
+            d++;
+        };
+        MergeSort( arr2, k );
+        int p = k - 1, e = 0;
+        while ( arr[p] >= arr2[e] )
+        {
+            swap( arr[p], arr2[e] );
+            p--;
+            e++;
+        }
+        MergeSort( arr, k );
+    }
     for( int i = 0; i < k; i++ )
         cout << arr[i] << ' ';
     return 0;
