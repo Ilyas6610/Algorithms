@@ -97,9 +97,10 @@ void Stack::grow()
 
 int prior( char x )
 {
-    if( x == '(' ) return 1;
+    if( x == '(' ) return 4;
     else if( x == '+' || x == '-' ) return 2;
     else if( x == '*' || x == '/' ) return 3;
+    else if( x == 'a' ) return 0;
 }
 
 int Split( string a, int *num, char *ch )
@@ -153,9 +154,10 @@ int main()
             n[i + m] = l[i];
     }
     n[l.size() + m] = '\0';
+    e.push('a');
     for(int i = 0; i < l.size() + m; ++i)
     {
-        if( n[i] >= '0' && n[i] <= '9' || n[i] == ' ' )
+        if( (n[i] >= '0' && n[i] <= '9') || n[i] == ' ' )
             k+=n[i];
         else if( n[i] == ')' )
         {
@@ -166,8 +168,9 @@ int main()
 
         else if( prior(n[i]) <= prior(e.top()) )
         {
-            while ( prior(n[i]) >= prior(e.top()) )
+            while ( prior(n[i]) <= prior(e.top()) )
             {
+                if( e.top() == 'a' ) break;
                 if(e.top() == '(') break;
                 k+=e.pop();
             }
@@ -175,7 +178,6 @@ int main()
         }
         else e.push(n[i]);
     };
-    cout << sizeof(e) << endl;
     while(e.top() != 'a')
         k+=e.pop();
     int i = -1;
@@ -192,12 +194,13 @@ int main()
     for(int i = 0; i < k.length(); i++)
         ch [i] = ' ';
     int lh = Split ( k, num, ch );
-    /*for(int i = 0; i < lh; i++)
-        cout << ch[i] << ' ' << num[i] << endl;*/
     int left, right;
     int j;
-    for( int i = 0; i < lh; i++ )
+    for( int i = 0; i < lh ; i++ )
     {
+        /*for(int j = 0; j < lh; j++)
+            cout << num[j];
+        cout << endl;*/
         if( ch[i] != ' ' )
         {
             left = 0, right = 0;
@@ -231,16 +234,12 @@ int main()
                     left *= right;
                     ch[j] = ' ';
                     break;
-                case '/ ':
+                case '/':
                     left /= right;
                     ch[j] = ' ';
                     break;
             }
             num[j] = left;
-        }
-        if ( i == lh - 1 )
-        {
-            break;
         }
     };
     cout << num[0] << endl;
