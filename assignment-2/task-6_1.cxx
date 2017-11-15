@@ -33,13 +33,45 @@ in                   | out
 
 ****************************************************************************/
 
-#include <vector>
 #include <iostream>
-#include <stdlib.h>
 #include <stdio.h>
+#include <cstdio>
+#include <vector>
+#include <cstring>
+#include <stdlib.h>
 #include <algorithm>
+#include <ctime>
 
 using namespace std;
+
+const int maxn = 25000005;
+static const int buf_size = 1 << 16;
+
+inline int getChar() {
+    static char buf[buf_size];
+    static int len = 0, pos = 0;
+    if (pos == len) {
+        pos = 0;
+        len = fread(buf, 1, buf_size, stdin);
+        if (!len) {
+            return -1;
+        }
+    }
+    return buf[pos++];
+}
+
+inline bool readInt(int &x) {
+    x = 0;
+    int c = getChar() - '0';
+    if (c < 0) {
+        return false;
+    }
+    while (0 <= c && c <= 9) {
+        x = x * 10 + c;
+        c = getChar() - '0';
+    }
+    return true;
+}
 
 void insertion_sort(int *a, int n) {
     for ( int i = 1; i < n ; ++i ) {
@@ -92,7 +124,10 @@ int partition(int *a, int n)
 void qSort(int *a, int n) {
     if ( n < 25 ) {
         insertion_sort(a, n);
-    } else {
+    }
+	else if ( n == 10 )
+        return;
+	else {
         int part = partition(a, n);
 
         if( part > 0 )
@@ -102,14 +137,16 @@ void qSort(int *a, int n) {
     }
 }
 
+int a[maxn];
+
 int main() {
-    ios::sync_with_stdio(false);
-    vector<int> data;
-    int number;
-    while ( cin >> number )
-        data.push_back( number );
-    int n = data.size();
-    qSort( &data[0], n );
-    for ( int i = 9; i < n; i += 10 ) cout << data[i] << ' ';
+    int n = 0;
+    while (readInt(a[n])) {
+        ++n;
+    }
+    qSort( a, n );
+    for (int i = 9; i < n; i += 10){
+        cout << a[i] << ' ';
+    }
     return 0;
 }
