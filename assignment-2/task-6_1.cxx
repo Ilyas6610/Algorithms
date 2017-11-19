@@ -122,7 +122,7 @@ int partition(int *a, int n)
 }
 
 void qSort(int *a, int n) {
-    if ( n < 25 ) {
+    if ( n < 45 ) {
         insertion_sort(a, n);
     }
 	else if ( n == 10 )
