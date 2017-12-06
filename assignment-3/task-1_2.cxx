@@ -33,9 +33,77 @@ root→Key ≤ K, то узел K добавляется в правое под�
 ****************************************************************************/
 
 #include <iostream>
+#include <stdio.h>
+
+using namespace std;
+
+struct Node
+{
+   int Key;
+   Node *left,*right;
+};
+
+
+void del(Node *&Tree){
+   if (Tree!=NULL)
+	{
+	   del(Tree->left);
+	   del(Tree->right);
+	   delete Tree;
+	   Tree = NULL;
+	}
+
+}
+
+void add(int Key,Node *&MyTree)
+{
+	if (NULL==MyTree)
+    {
+		MyTree=new Node;
+		MyTree->Key=Key;
+		MyTree->left=MyTree->right=NULL;
+	}
+    if (Key<MyTree->Key)
+    {
+        if (MyTree->left!=NULL) add(Key,MyTree->left);
+        else
+        {
+            MyTree->left=new Node;
+            MyTree->left->left=MyTree->left->right=NULL;
+            MyTree->left->Key=Key;
+        }
+    }
+    if (Key>MyTree->Key)
+    {
+        if (MyTree->right!=NULL) add(Key,MyTree->right);
+        else
+        {
+        MyTree->right=new Node;
+        MyTree->right->left=MyTree->right->right=NULL;
+        MyTree->right->Key=Key;
+        }
+    }
+}
+
+void preOrder(Node* root) {
+    if (root) {
+        cout << root->Key << ' ';
+        preOrder(root->left);
+        preOrder(root->right);
+    }
+}
 
 int main()
 {
+    int n,x;
+    cin >> n;
+    Node* Tree = NULL;
+    for(int i=0;i<n;i++)
+    {
+        cin >> x;
+        add(x,Tree);
+    };
+    preOrder(Tree);
+    del(Tree);
     return 0;
 }
-
