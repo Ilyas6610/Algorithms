@@ -106,12 +106,12 @@ public:
             if ( table[hash] != NULL && table[hash]->Data == key && !table[hash]->isDeleted )
             	return false;
             else if ( table[hash] == NULL ) {
-				if ( insert_place == -1 )
-                    insert_place = hash;
+			if ( insert_place == -1 )
+                    		insert_place = hash;
 				break;
 			} else if ( table[hash]->isDeleted )
 				if (insert_place == -1)
-                    insert_place = hash;
+                    			insert_place = hash;
         }
         if ( insert_place == -1 )
         	return false;
@@ -119,7 +119,7 @@ public:
         	delete table[insert_place];
         table[insert_place] = new CHashTableNode( key );
         ++count;
-        if ( count >= table.size() * 2 / 3 )
+        if ( count >= table.size() * 3 / 4 )
             Rehash();
         return true;
     }
